@@ -1,0 +1,11 @@
+Dokumentation Projekt Soccer-Predictions
+
+//Nächster Termin DATUM
+
+// 22. April 2017
+
+Ziel:			Versuchen XML Daten zu downloden und zu öffnen
+Herangehensweise:	
+Ergebnis:
+
+Quellen:				
