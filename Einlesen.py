@@ -1,10 +1,6 @@
 
 # coding: utf-8
 
-# # First Test
-
-# In[68]:
-
 from urllib.request import urlopen, Request
 import json
 from pandas.io.json import json_normalize
@@ -12,7 +8,7 @@ from pprint import pprint
 from datetime import date
 import os
 
-class leauge(team, season):
+class leauge(team):
     def __init__(self):
         self.lastLoadMatchday = None
     
@@ -89,84 +85,8 @@ class leauge(team, season):
             print(Data[x]['Team1']['TeamName'], Data[x]['MatchResults'][1]['PointsTeam1'], ':'
                   , Data[x]['MatchResults'][1]['PointsTeam2'], Data[x]['Team2']['TeamName'])
         
-#season_day = '2016/30'
-#request = Request('https://www.openligadb.de/api/getmatchdata/bl1/'+season_day)
-#response = urlopen(request).read().decode('utf-8')
-#data = json.loads(response)
-#data[0]['Goals'][1]
-
-
-# In[70]:
-
 Bundesliga = leauge()
 
 
-# In[72]:
-
-Bundesliga.downloadMatchDay(2016,31)
-Bundesliga.loadMatchDay(2016,31)
-Bundesliga.getUpdate()
-
-
-# In[160]:
-
-Bundesliga.lastUpdate > date(2014 ,7 ,8)
-
-
-# In[14]:
-
-class iterationDays:
-    def __init__(self, n):
-        self.i = 0
-        self.n = n
-
-    def __iter__(self):
-        return self
-
-    def next(self):
-        if self.i < self.n:
-            i = self.i
-            self.i += 1
-            return 1
-        else:
-            print('FUUUUUU')
-            return 0
-test = iterationDays(34)
-while(test.next()==True):
-    print('loading ...')
-
-
-# In[ ]:
-
-
-
-
-# In[65]:
-
-class iterationDays:
-    def __init__(self, matchFinished):
-        self.mF = matchFinished
-        self.day = 0
-        self.year = 0
-        
-    def __iter__(self):
-        return self
-
-    def next(self):
-        if self.mF[self.day + self.year*4] == True:
-            if (self.day>33):
-                self.day = 0
-                self.year += 1
-            else:
-                self.day += 1
-            print('day = ', self.day, 'year', self.year)
-            return 1
-        else:
-            print('FUUUUUU')
-            return 0
-
-
-# In[ ]:
-
-
+#Bundesliga.getUpdate()
 
