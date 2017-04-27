@@ -1,6 +1,3 @@
-
-# coding: utf-8
-
 from urllib.request import urlopen, Request
 import json
 from pandas.io.json import json_normalize
@@ -86,7 +83,3 @@ class leauge(team):
                   , Data[x]['MatchResults'][1]['PointsTeam2'], Data[x]['Team2']['TeamName'])
         
 Bundesliga = leauge()
-
-
-#Bundesliga.getUpdate()
-
