@@ -5,7 +5,7 @@ from pprint import pprint
 from datetime import date
 import os
 
-class leauge(team):
+class leauge(season):
     def __init__(self):
         self.lastLoadMatchday = None
     
