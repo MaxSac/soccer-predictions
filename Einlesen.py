@@ -5,9 +5,26 @@ from pprint import pprint
 from datetime import date
 import os
 
-class leauge(season):
+
+
+class leauge():
     def __init__(self):
         self.lastLoadMatchday = None
+    
+    def saveLastLoadMatchday(self):
+        ''' Save the lastLoadMatchday'''
+        if(self.lastLoadMatchday <=1):
+            lastLoadMatchday = [self.lastLoadMatchday[0]-1, 34]
+        else:
+            lastLoadMatchday = [self.lastLoadMatchday[0],self.lastLoadMatchday[1]-1]
+        with open('info.json', 'w') as file:
+            file.write(json.dumps({'LastLoadMatchday': lastLoadMatchday}))
+            
+    def readLastLoadMatchday(self):
+        '''Read the last lastLoadMatchday '''
+        with open('info.json') as file:
+            dataLoaded = json.load(file)
+        return dataLoaded['LastLoadMatchday']
     
     def downloadMatchDay(self, year, day):
         ''' Download the Json file and save it in the season folder.
@@ -64,13 +81,18 @@ class leauge(season):
         
     def getUpdate(self):
         ''' Load all data to the newest one.
-        
+            First of all, it looks if there is a file with the 
+            information from the last load Matchday. If doesn't
+            it load the files from the first day it knew.
         '''
         if(self.lastLoadMatchday == None):
-            firstEntryYear = 2013
-            firstEntryDay = 1
-            self.lastLoadMatchday = [firstEntryYear, firstEntryDay]
-            pprint('Download all scores till season: ' + str(firstEntryYear) + '/' + str(firstEntryYear+1))
+            if(os.path.isfile('info.json') == True):
+                self.lastLoadMatchday = self.readLastLoadMatchday()
+            else:
+                firstEntryYear = 2013
+                firstEntryDay = 1
+                self.lastLoadMatchday = [firstEntryYear, firstEntryDay]
+                pprint('Download all scores till season: ' + str(firstEntryYear) + '/' + str(firstEntryYear+1))
         
         self.downloadMatchDay(self.lastLoadMatchday[0], self.lastLoadMatchday[1])
         self.loadRek()
@@ -81,5 +103,4 @@ class leauge(season):
         for x in range(len(Data)):
             print(Data[x]['Team1']['TeamName'], Data[x]['MatchResults'][1]['PointsTeam1'], ':'
                   , Data[x]['MatchResults'][1]['PointsTeam2'], Data[x]['Team2']['TeamName'])
-        
-Bundesliga = leauge()
+
