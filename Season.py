@@ -1,3 +1,4 @@
+#!usr/bin/python
 import os.path
 
 def doMergeDict(dict1, dict2):
@@ -36,7 +37,7 @@ class season:
                                 data[x]['Team2']['TeamName']]))
         with open('info.json', 'r') as file:
             json_data = json.load(file)
-        json_data.update({'season'+str(self.season): {'teams':teams.tolist()}})
+        json_data.update({'teams'+str(self.season): teams.tolist()})
         pprint(json_data)
         with open('info.json', 'w') as file:
             file.write(json.dumps(json_data))
