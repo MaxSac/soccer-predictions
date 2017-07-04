@@ -1,4 +1,3 @@
-#!usr/bin/python
 import os.path
 
 def doMergeDict(dict1, dict2):
@@ -119,6 +118,8 @@ class season:
         return np.squeeze(parings)
 
     def paaringsSeason(self):
+        '''load parings from the whole season
+        '''
         matchPaarungen = [self.loadPaarings(1)]
         for x in range(self.currentMatchDay):
             matchPaarungen = np.append(matchPaarungen, 
@@ -129,7 +130,7 @@ class season:
     def calcPoints(self, typ='total'):
         ''' Returns the points of the actuell season.
         Parameters:
-        typ = 'total'/'away'/'home'
+            typ = 'total'/'away'/'home'
         Returns:
         points 
             Dict of teamname and an array of Points
@@ -180,11 +181,17 @@ class season:
         return table
     
     def matchSearch(self, team1, team2, order=False):
-        """ Search after a game
+        """ Search after a game in a Season
         Parameters: 
-            
+            team1: str
+                searched home team 
+            team2: str 
+                searched away team 
+            order: boolean 
+                look equaly for change home and away team
         Returns:
-        
+            resonse: np.array
+                [ matchday, game ]
         """
         mask = self.matchPaarings == [str(team1), str(team2)]
         matchDay = lambda x : np.sum(mask[x][:][:], axis=1)

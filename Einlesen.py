@@ -1,3 +1,10 @@
+
+# coding: utf-8
+
+# # First Test
+
+# In[3]:
+
 from urllib.request import urlopen, Request
 import json
 from pandas.io.json import json_normalize
@@ -13,7 +20,7 @@ class leauge():
     
     def saveLastLoadMatchday(self):
         ''' Save the lastLoadMatchday'''
-        if(self.lastLoadMatchday <=1):
+        if(self.lastLoadMatchday[1] <=1):
             lastLoadMatchday = [self.lastLoadMatchday[0]-1, 34]
         else:
             lastLoadMatchday = [self.lastLoadMatchday[0],self.lastLoadMatchday[1]-1]
@@ -76,6 +83,7 @@ class leauge():
                 self.lastLoadMatchday[1] +=1
             print('loading ...')
             self.downloadMatchDay(self.lastLoadMatchday[0], self.lastLoadMatchday[1])
+            self.saveLastLoadMatchday()
             self.loadRek()
             return 0
         
