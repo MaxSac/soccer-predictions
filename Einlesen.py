@@ -3,7 +3,7 @@
 
 # # First Test
 
-# In[3]:
+# In[6]:
 
 from urllib.request import urlopen, Request
 import json
@@ -14,7 +14,7 @@ import os
 
 
 
-class leauge():
+class downloader():
     def __init__(self):
         self.lastLoadMatchday = None
     
@@ -105,10 +105,14 @@ class leauge():
         self.downloadMatchDay(self.lastLoadMatchday[0], self.lastLoadMatchday[1])
         self.loadRek()
         print(self.lastLoadMatchday)
-    
-    def printResults(self, year, day):
-        Data = self.loadMatchDay(year, day)
-        for x in range(len(Data)):
-            print(Data[x]['Team1']['TeamName'], Data[x]['MatchResults'][1]['PointsTeam1'], ':'
-                  , Data[x]['MatchResults'][1]['PointsTeam2'], Data[x]['Team2']['TeamName'])
+
+
+# In[8]:
+
+downloader().getUpdate()
+
+
+# In[ ]:
+
+
 
