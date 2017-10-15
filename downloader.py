@@ -1,36 +1,61 @@
+
+# coding: utf-8
+
+# # First Test
+
+# In[1]:
+
 from urllib.request import urlopen, Request
 import json
 from pandas.io.json import json_normalize
-from pprint import pprint
-from datetime import date
 import os
-
 
 
 class downloader():
     def __init__(self):
-        self.lastLoadMatchday = None
-        self.firstEntryYear = 2014
+        self.firstEntryYear = 2013
         self.firstEntryDay = 1
+        self.lastLoadMatchday = None
         
     def beginHistory(self):
         '''Beginn der Datenbank'''
         return [self.firstEntryYear, self.firstEntryDay]
     
-    def saveLastLoadMatchday(self):
-        ''' Save the lastLoadMatchday'''
-        if(self.lastLoadMatchday[1] <=1):
-            lastLoadMatchday = [self.lastLoadMatchday[0]-1, 34]
+    def writeInfo(self, info=None):
+        '''Save information as a Dict in a .txt file'''
+        with open('info.txt', 'w') as outfile:  
+            json.dump(info, outfile)
+    
+    def loadInfo(self):
+        '''load info.txt file, if not exist return none'''
+        if(os.path.isfile('./info.txt')==True):
+            with open('info.txt') as json_file:  
+                data = json.load(json_file)
+            return data
         else:
-            lastLoadMatchday = [self.lastLoadMatchday[0],self.lastLoadMatchday[1]-1]
-        with open('info.json', 'w') as file:
-            file.write(json.dumps({'LastLoadMatchday': lastLoadMatchday}))
-            
+            return None 
+    
+    def updateInfo(self, newInfo):
+        '''load the information from the file and add/replace new one.'''
+        info = self.loadInfo()
+        print(info)
+        for x in newInfo.keys():
+            info[x] = newInfo[x]
+        self.writeInfo(info)
+        
     def readLastLoadMatchday(self):
-        '''Read the last lastLoadMatchday '''
-        with open('info.json') as file:
-            dataLoaded = json.load(file)
-        return dataLoaded['LastLoadMatchday']
+        '''read the last load matchday in the info.txt file, if not exist
+        set the actuell matchday to the first one.'''
+        info = self.loadInfo()
+        if('lastLoadMatchday' in info):
+            self.lastLoadMatchday = info['lastLoadMatchday']
+        else:
+            self.lastLoadMatchday = self.beginHistory()
+            self.updateInfo({'lastLoadMatchday': self.lastLoadMatchday})
+    
+    def saveLastLoadMatchday(self):
+        '''update the last load matchday from info.txt file'''
+        self.updateInfo({'lastLoadMatchday': self.lastLoadMatchday})
     
     def downloadMatchDay(self, year, day):
         ''' Download the Json file and save it in the season folder.
@@ -92,13 +117,17 @@ class downloader():
             information from the last load Matchday. If doesn't
             it load the files from the first day it knew.
         '''
-        if(self.lastLoadMatchday == None):
-            if(os.path.isfile('info.json') == True):
-                self.lastLoadMatchday = self.readLastLoadMatchday()
-            else:
-                self.lastLoadMatchday = [self.firstEntryYear, self.firstEntryDay]
-                pprint('Download all scores till season: ' + str(firstEntryYear) + '/' + str(firstEntryYear+1))
-        
+        self.readLastLoadMatchday()
         self.downloadMatchDay(self.lastLoadMatchday[0], self.lastLoadMatchday[1])
         self.loadRek()
-        print(self.lastLoadMatchday)
+
+
+# In[2]:
+
+downloader().getUpdate()
+
+
+# In[ ]:
+
+
+
