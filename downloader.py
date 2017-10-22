@@ -9,6 +9,7 @@ from urllib.request import urlopen, Request
 import json
 from pandas.io.json import json_normalize
 import os
+import datetime
 
 
 class downloader():
@@ -33,12 +34,11 @@ class downloader():
                 data = json.load(json_file)
             return data
         else:
-            return None 
+            return {'createdOn': 2017}
     
     def updateInfo(self, newInfo):
         '''load the information from the file and add/replace new one.'''
         info = self.loadInfo()
-        print(info)
         for x in newInfo.keys():
             info[x] = newInfo[x]
         self.writeInfo(info)
@@ -52,6 +52,7 @@ class downloader():
         else:
             self.lastLoadMatchday = self.beginHistory()
             self.updateInfo({'lastLoadMatchday': self.lastLoadMatchday})
+        return self.lastLoadMatchday
     
     def saveLastLoadMatchday(self):
         '''update the last load matchday from info.txt file'''
@@ -124,7 +125,7 @@ class downloader():
 
 # In[2]:
 
-downloader().getUpdate()
+# downloader().getUpdate()
 
 
 # In[ ]:
